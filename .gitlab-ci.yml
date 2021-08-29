@@ -1,0 +1,36 @@
+stages:
+  - deploy-test
+  - deploy-release
+  - deploy-production
+cache:
+  key: ${CI_BUILD_REF_NAME}
+  paths:
+    - node_modules/
+deploy-test:
+  stage: deploy-test
+  only:
+    - dev
+  script:
+    - pwd
+    - npm install
+    - npm run build:test
+    - cp -rf ${CI_PROJECT_DIR}/dist/* /www/wwwroot/haoye.shenshop.cn
+deploy-release:
+  stage: deploy-release
+  only:
+    - release
+  script:
+    - pwd
+    - npm install
+    - npm run build:release
+    - cp -rf ${CI_PROJECT_DIR}/dist/* /www/wwwroot/AutoPublishFrontend
+deploy-production:
+  stage: deploy-production
+  only:
+    - production
+  script:
+    - pwd
+    - npm install
+    - npm run build:prod
+    - cp -rf ${CI_PROJECT_DIR}/dist/* /www/wwwroot/Fuzhuang/Admin
+
